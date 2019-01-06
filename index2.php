@@ -16,7 +16,8 @@ session_start();
 
 if (!empty($_SESSION['auth'])) {
     $userName = $_SESSION['login'];
-    echo "Вы зашли как $userName";
+    $status = $_SESSION['status'];
+    echo "Вы зашли как $userName  Вы $status";
     ?>
     <!doctype html>
     <html lang="en">

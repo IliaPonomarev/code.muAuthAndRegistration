@@ -22,7 +22,7 @@ if (!empty($_POST['login']) && !empty($_POST['password'])
             $query = "SELECT * FROM users WHERE login = '$login'";
             $user = mysqli_fetch_assoc(mysqli_query($link, $query));
             if (empty($user)) {
-                $query = "INSERT INTO users SET login = '$login', password='$password', email = '$email', date = '$date', registration_date = '$registration_date',status = 'user' ";
+                $query = "INSERT INTO users SET login = '$login', password='$password', email = '$email', date = '$date', registration_date = '$registration_date',status_id = '1', banned='0' ";
                 mysqli_query($link, $query);
                 $_SESSION['auth'] = true;
 
@@ -40,7 +40,7 @@ if (!empty($_POST['login']) && !empty($_POST['password'])
 
 <form action="" method="POST">
     <br>login:<?php if (!$rightLogin) {
-        echo 'login has exists only latin letters and its lenght has 4-6 letters';
+        echo 'login has exists only latin letters and its lenght has 5-10 letters';
     } ?><br>
     <input type="text" name="login" value="<?= $_POST['login'] ?>">
     <br>password:

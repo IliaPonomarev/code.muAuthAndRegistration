@@ -34,12 +34,13 @@ $content .= '</table>';
 echo $content;
 
 
+
 if (!empty($_POST['login']) && !empty($_POST['password'])) {
     $login = $_POST['login'];
     $password = $_POST['password'];
 
-    $query = "SELECT * FROM users WHERE login = '$login'";
-
+    $query = "SELECT *, statuses.name as status FROM users
+		LEFT JOIN statuses ON users.status_id=statuses.id WHERE login='$login'";
     $result = mysqli_query($link, $query);
 
     $user = mysqli_fetch_assoc($result);
@@ -47,13 +48,18 @@ if (!empty($_POST['login']) && !empty($_POST['password'])) {
         $hash = $user['password'];
 
         if (password_verify($_POST['password'], $hash)) {
-            $_SESSION['message'] = ['text' => 'your auth successfully'];
-            $_SESSION['auth'] = true;
-            $_SESSION['id'] = $user['id'];
-            $_SESSION['login'] = $login;
-            $_SESSION['status'] = $user['status'];
-            echo 'everything okay';
+            if ($user['banned'] != 1){
+                $_SESSION['message'] = ['text' => 'your auth successfully'];
+                $_SESSION['auth'] = true;
+                $_SESSION['id'] = $user['id'];
+                $_SESSION['login'] = $login;
+                $_SESSION['status'] = $user['status'];
+                echo 'everything okay';
 //        header('Location: /1/index2.php'); die();
+            } else {
+                echo 'Вы забанены';
+            }
+
         } else {
             echo 'something wrong';
             echo '
